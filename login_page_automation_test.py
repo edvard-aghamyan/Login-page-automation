@@ -6,6 +6,15 @@ from selenium.webdriver.support import expected_conditions as EC
 import unittest
 
 
+def try_to_login(driver, login, password):
+    loginLabel = driver.find_element(by=By.NAME, value="Username")
+    loginLabel.send_keys(login)
+    passwordLabel = driver.find_element(by=By.NAME, value="Password")
+    passwordLabel.send_keys(password)
+    signButton = driver.find_element(by=By.ID, value='signin')
+    signButton.click()
+
+
 class AsosLoginTestCases(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
@@ -21,48 +30,22 @@ class AsosLoginTestCases(unittest.TestCase):
         Wait.until(EC.element_to_be_clickable((By.CLASS_NAME, '_1336dMe'))).click()
 
     def test_log_in_registered_user(self):
-        driver = self.driver
-        loginLabel = driver.find_element(by=By.NAME, value="Username")
-        loginLabel.send_keys("test1234@gmail.com")
-        passwordLabel = driver.find_element(by=By.NAME, value="Password")
-        passwordLabel.send_keys("test1234")
-        signButton = driver.find_element(by=By.ID, value='signin')
-        signButton.click()
+        try_to_login(self.driver, "test1234@gmail.com", "test1234")
 
     def test_log_in_with_unregistered_user(self):
-        driver = self.driver
-        loginLabel = driver.find_element(by=By.NAME, value="Username")
-        loginLabel.send_keys("testmail12@gmail.com")
-        passwordLabel = driver.find_element(by=By.NAME, value="Password")
-        passwordLabel.send_keys("test12345")
-        signButton = driver.find_element(by=By.ID, value='signin')
-        signButton.click()
+        try_to_login(self.driver, "testmail12@gmail.com", "test12345")
 
     def test_log_in_with_empty_email(self):
-        driver = self.driver
-        passwordLabel = driver.find_element(by=By.NAME, value="Password")
-        passwordLabel.send_keys("test1234")
-        signButton = driver.find_element(by=By.ID, value='signin')
-        signButton.click()
+        try_to_login(self.driver, "", "test1234")
 
     def test_log_in_with_empty_password(self):
-        driver = self.driver
-        loginLabel = driver.find_element(by=By.NAME, value="Username")
-        loginLabel.send_keys("testmail@gmail.com")
-        signButton = driver.find_element(by=By.ID, value='signin')
-        signButton.click()
+        try_to_login(self.driver, "testmail@gmail.com", "")
 
     def test_log_in_with_empty_email_and_password(self):
-        driver = self.driver
-        signButton = driver.find_element(by=By.ID, value='signin')
-        signButton.click()
+        try_to_login(self.driver, " ", " ")
 
     def test_check_masked_password(self):
-        driver = self.driver
-        passwordLabel = driver.find_element(by=By.NAME, value="Password")
-        passwordLabel.send_keys("12345678abc")
-        signButton = driver.find_element(by=By.ID, value='signin')
-        signButton.click()
+        try_to_login(self.driver, "", "12345678abc")
 
     def tearDown(self):
         self.driver.quit()
