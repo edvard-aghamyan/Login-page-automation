@@ -1,17 +1,11 @@
 from selenium import webdriver
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 import unittest
 
 
 class AsosLoginTestCases(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.verificationErrors = []
-        self.accept_next_alert = True
         self.driver.get("https://my.asos.com/identity/login")
 
     def try_to_login(self, login, password):
