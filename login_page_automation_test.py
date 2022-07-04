@@ -6,15 +6,6 @@ from selenium.webdriver.support import expected_conditions as EC
 import unittest
 
 
-def try_to_login(driver, login, password):
-    loginLabel = driver.find_element(by=By.NAME, value="Username")
-    loginLabel.send_keys(login)
-    passwordLabel = driver.find_element(by=By.NAME, value="Password")
-    passwordLabel.send_keys(password)
-    signButton = driver.find_element(by=By.ID, value='signin')
-    signButton.click()
-
-
 class AsosLoginTestCases(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
@@ -23,27 +14,34 @@ class AsosLoginTestCases(unittest.TestCase):
         self.accept_next_alert = True
         self.driver.get("https://my.asos.com/identity/login")
 
+    def try_to_login(self, login, password):
+        loginLabel = self.driver.find_element(by=By.NAME, value="Username")
+        loginLabel.send_keys(login)
+        passwordLabel = self.driver.find_element(by=By.NAME, value="Password")
+        passwordLabel.send_keys(password)
+        signButton = self.driver.find_element(by=By.ID, value='signin')
+        signButton.click()
+
     def test_log_in_registered_user(self):
-        try_to_login(self.driver, "test1234@gmail.com", "test1234")
+        self.try_to_login("test1234@gmail.com", "test1234")
 
     def test_log_in_with_unregistered_user(self):
-        try_to_login(self.driver, "testmail12@gmail.com", "test12345")
+        self.try_to_login("testmail12@gmail.com", "test12345")
 
     def test_log_in_with_empty_email(self):
-        try_to_login(self.driver, "", "test1234")
+        self.try_to_login("", "test1234")
 
     def test_log_in_with_empty_password(self):
-        try_to_login(self.driver, "testmail@gmail.com", "")
+        self.try_to_login("testmail@gmail.com", "")
 
     def test_log_in_with_empty_email_and_password(self):
-        try_to_login(self.driver, " ", " ")
+        self.try_to_login(" ", " ")
 
     def test_check_masked_password(self):
-        try_to_login(self.driver, "", "12345678abc")
+        self.try_to_login("", "12345678abc")
 
     def tearDown(self):
         self.driver.quit()
-        self.assertEqual([], self.verificationErrors)
 
 
 if __name__ == "__main__":
