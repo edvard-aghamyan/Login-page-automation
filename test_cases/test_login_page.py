@@ -15,7 +15,6 @@ class TestAsosLogin:
         passwordLabel.send_keys(password)
         signButton = self.driver.find_element(by=By.ID, value='signin')
         signButton.click()
-        self.driver.quit()
 
     def test_log_in_registered_user(self):
         self.try_to_login("test1234@gmail.com", "test1234")
@@ -34,6 +33,9 @@ class TestAsosLogin:
 
     def test_check_masked_password(self):
         self.try_to_login("", "12345678abc")
+
+    def teardown_method(self):
+        self.driver.quit()
 
 
 if __name__ == "__main__":
