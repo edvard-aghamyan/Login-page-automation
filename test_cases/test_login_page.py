@@ -6,9 +6,9 @@ import pytest
 class TestAsosLogin:
     def setup(self):
         self.driver = webdriver.Chrome()
-        self.driver.get("https://my.asos.com/identity/login")
 
     def try_to_login(self, login, password):
+        self.driver.get("https://my.asos.com/identity/login")
         loginLabel = self.driver.find_element(by=By.NAME, value="Username")
         loginLabel.send_keys(login)
         passwordLabel = self.driver.find_element(by=By.NAME, value="Password")
